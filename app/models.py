@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 from app import db
+from werkzeug.security import generate_password_hash, check_password_hash
+from . import login_manager
 
 relationship_table = db.Table('datacenter_server_relationship',
                               db.Column('datacenter_id', db.Integer, db.ForeignKey('datacenters.id'), nullable=False),
@@ -10,8 +12,31 @@ class Users(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, index=True)
-    email = db.Column(db.String(64))
-    password = db.Column(db.String(64))
+    password_hash = db.Column(db.String(128))
+    authenticated = db.Column(db.Boolean, default=False)
+
+    @property
+    def password(self):
+        raise AttributeError('password is not readable attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def is_active(self):
+        return True
+
+    def get_id(self):
+        return self.username
+
+    def is_authenticated(self):
+        return self.authenticated
+
+    def is_anonymous(self):
+        return False
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -33,3 +58,7 @@ class Servers(db.Model):
     model = db.Column(db.String(64))
     serial_number = db.Column(db.String(64))
     os = db.Column(db.String(64))
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.filter_by(username=user_id).first()

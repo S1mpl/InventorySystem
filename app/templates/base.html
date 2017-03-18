@@ -20,6 +20,14 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/">Главная</a></li>
                 </ul>
+
+                <ul class="nav navbar-nav navbar-right" style="margin-right: 0">
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}">Выйти</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('auth.login') }}">Войти</a></li>
+                {% endif %}
+            </ul>
             </div>
         </div>
     </div>
