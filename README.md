@@ -86,12 +86,13 @@ ExecStart=/var/www/inventory/env/bin/uwsgi --ini server.ini
 WantedBy=multi-user.target
 ```
 
-Запускаем iwsgi
+Запускаем uwsgi
 ```
 sudo systemctl start server
 sudo systemctl enable server
 ```
 
+nginx
 ```
 sudo nano /etc/nginx/sites-available/server
 server {
