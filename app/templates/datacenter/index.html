@@ -8,34 +8,48 @@
         <h1>Датацентры <a href="{{ url_for('datacenters.create') }}" class="btn btn-success">Добавить</a></h1>
     </div>
     <div class="container">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Название</th>
-                    <th>Расположение</th>
-                    <th>Вместимость</th>
-                    <th>Tier</th>
-                    <th>Кол-во серверов</th>
-                    <th>Действия</th>
-                <tr>
-            </thead>
-            <tbody>
-                {% for dc in datacenters %}
-                <tr>
-                    <td>{{ dc.id }}</td>
-                    <td style="max-width: 200px; text-overflow: ellipsis; overflow: hidden"><a href="{{ url_for('servers.index', id_dc=dc.id) }}">{{ dc.name }}</a></td>
-                    <td style="max-width: 200px; text-overflow: ellipsis; overflow: hidden">{{ dc.location }}</td>
-                    <td>{{ dc.capacity }}</td>
-                    <td>{{ dc.tier }}</td>
-                    <td>{{ dc.servers.count() }}</td>
-                    <td>
-                        <div class="dropdown"> <a href="#" class="dropdown-toggle" id="drop4" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Дейсвия <span class="caret"></span> </a> <ul class="dropdown-menu" id="menu1" aria-labelledby="drop4"> <li><a href="{{ url_for('datacenters.edit', id_dc=dc.id) }}">Редактировать</a></li> <li><a href="{{ url_for('datacenters.delete', id_dc=dc.id) }}">Удалить</a></li></ul></div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Название {% if request.args.get('sort_name') == None %}
+                                        <a href="{{ url_for('datacenters.index', sort_name='asc') }}"><i class='glyphicon glyphicon-resize-full' style="float: right"></i></a>
+                                    {% endif %}
+                                    {% if request.args.get('sort_name') == 'asc' %}
+                                        <a href="{{ url_for('datacenters.index', sort_name='desc' ) }}"><i class='glyphicon glyphicon-triangle-top' style="float: right"></i></a>
+                                    {% elif request.args.get('sort_name') == 'desc' %}
+                                        <a href="{{ url_for('datacenters.index', sort_name='asc') }}"><i class='glyphicon glyphicon-triangle-bottom' style="float: right"></i></a>
+                                    {% endif %}</th>
+                        <th>Расположение</th>
+                        <th>Вместимость</th>
+                        <th>Tier</th>
+                        <th>Кол-во серверов {% if request.args.get('sort_servers') == None %}
+                                        <a href="{{ url_for('datacenters.index', sort_servers='asc') }}"><i class='glyphicon glyphicon-resize-full' style="float: right"></i></a>
+                                    {% endif %}
+                                    {% if request.args.get('sort_servers') == 'asc' %}
+                                        <a href="{{ url_for('datacenters.index', sort_servers='desc' ) }}"><i class='glyphicon glyphicon-triangle-top' style="float: right"></i></a>
+                                    {% elif request.args.get('sort_servers') == 'desc' %}
+                                        <a href="{{ url_for('datacenters.index', sort_servers='asc') }}"><i class='glyphicon glyphicon-triangle-bottom' style="float: right"></i></a>
+                                    {% endif %}</th>
+                        <th>Действия</th>
+                    <tr>
+                </thead>
+                <tbody>
+                    {% for dc in datacenters %}
+                    <tr>
+                        <td>{{ dc.id }}</td>
+                        <td style="max-width: 200px; text-overflow: ellipsis; overflow: hidden"><a href="{{ url_for('servers.index', id_dc=dc.id) }}">{{ dc.name }}</a></td>
+                        <td style="max-width: 200px; text-overflow: ellipsis; overflow: hidden">{{ dc.location }}</td>
+                        <td>{{ dc.capacity }}</td>
+                        <td>{{ dc.tier }}</td>
+                        <td>{{ dc.servers.count() }}</td>
+                        <td>
+                            <div class="dropdown"> <a href="#" class="dropdown-toggle" id="drop4" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Дейсвия <span class="caret"></span> </a> <ul class="dropdown-menu" id="menu1" aria-labelledby="drop4"> <li><a href="{{ url_for('datacenters.edit', id_dc=dc.id) }}">Редактировать</a></li> <li><a href="{{ url_for('datacenters.delete', id_dc=dc.id) }}">Удалить</a></li></ul></div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
     </div>
     <div class="pagination">
         {{ macros.pagination_widget(pagination, '.index') }}

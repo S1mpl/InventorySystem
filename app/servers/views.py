@@ -20,7 +20,7 @@ def index(id_dc):
         pagination = Servers.query.filter_by(datacenter_id=id_dc).order_by('id desc')
     if search:
         pagination = pagination.filter(Servers.name.like('%'+search+'%'))
-    pagination = pagination.paginate(page, per_page=1,error_out=False)
+    pagination = pagination.paginate(page, per_page=10,error_out=False)
     servers = pagination.items
     return render_template('servers/index.html', servers=servers, pagination=pagination, id_dc=id_dc)
 

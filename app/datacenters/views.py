@@ -12,8 +12,13 @@ def index():
     page = request.args.get('page', 1, type=int)
     sort_name = request.args.get('sort_name', '', type=str)
     sort_servers = request.args.get('sort_servers', '', type=str)
-
-    pagination = Datacenters.query.order_by('id desc').paginate(page, per_page=10, error_out=False)
+    if sort_name:
+        pagination = Datacenters.query.order_by('name '+sort_name)
+    elif sort_servers:
+        pagination = Datacenters.query.order_by('(SELECT count(id) FROM servers WHERE datacenter_id=datacenters.id) ' + sort_servers)
+    else:
+        pagination = Datacenters.query.order_by('id desc')
+    pagination = pagination.paginate(page, per_page=10, error_out=False)
     datacenters = pagination.items
     return render_template('datacenter/index.html', datacenters=datacenters, pagination=pagination)
 
