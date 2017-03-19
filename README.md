@@ -31,9 +31,11 @@ cd /var/www
 sudo rm -r html
 ```
 
-Создим виртуальную среду
+Установка приложения
 ```
-sudo pip3 install virtualenv
-sudo mkdir inventory
-cd inventory
+sudo git clone 
+https://github.com/S1mpl/InventorySystem.git
+cd InventorySystem
+
 ```
+
