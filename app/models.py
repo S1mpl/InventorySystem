@@ -3,11 +3,6 @@ from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import login_manager
 
-relationship_table = db.Table('datacenter_server_relationship',
-                              db.Column('datacenter_id', db.Integer, db.ForeignKey('datacenters.id'), nullable=False),
-                              db.Column('server_id', db.Integer, db.ForeignKey('servers.id'), nullable=False),
-                              db.PrimaryKeyConstraint('datacenter_id', 'server_id'))
-
 class Users(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -45,10 +40,10 @@ class Datacenters(db.Model):
     __tablename__ = 'datacenters'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64),  index=True)
-    location = db.Column(db.String(64))
+    location = db.Column(db.String(255))
     capacity = db.Column(db.Integer)
     tier = db.Column(db.Integer)
-    servers = db.relationship('Servers', secondary=relationship_table, backref='datacenters')
+    servers = db.relationship('Servers', backref='server', lazy='dynamic')
 
 class Servers(db.Model):
     __tablename__ = 'servers'
@@ -58,6 +53,7 @@ class Servers(db.Model):
     model = db.Column(db.String(64))
     serial_number = db.Column(db.String(64))
     os = db.Column(db.String(64))
+    datacenter_id = db.Column(db.Integer, db.ForeignKey('datacenters.id'))
 
 @login_manager.user_loader
 def load_user(user_id):
