@@ -57,6 +57,11 @@ sudo python3 migate.py db migrate
 sudo python3 migate.py db upgrade
 ```
 
+Запуск тествого сервера
+```
+sudo python manage.py runserver
+```
+
 Выходим из витеальной среды
 ```
 deactivate
