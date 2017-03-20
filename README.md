@@ -69,10 +69,6 @@ sudo python manage.py runserver
 ```
 deactivate
 ```
-Отредактировать файлы
-```
-sudo nano server.ini
-```
 
 Создать файл
 ```
@@ -103,6 +99,7 @@ sudo systemctl enable server
 nginx
 ```
 sudo nano /etc/nginx/sites-available/server
+
 server {
   listen 80;
   server_name IP;
