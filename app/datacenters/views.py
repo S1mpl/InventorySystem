@@ -1,8 +1,7 @@
-from datetime import datetime
-from flask import render_template, sessions, url_for, redirect, request
+from flask import render_template, url_for, redirect, request
 from . import datacenters
 from .. import db
-from ..models import Users, Datacenters
+from ..models import Datacenters
 from flask_login import login_required
 from .forms import CreateDatacenterForm, EditDatacenterForm, DeleteDatacenterForm
 
@@ -10,12 +9,14 @@ from .forms import CreateDatacenterForm, EditDatacenterForm, DeleteDatacenterFor
 @login_required
 def index():
     page = request.args.get('page', 1, type=int)
-    sort_name = request.args.get('sort_name', '', type=str)
-    sort_servers = request.args.get('sort_servers', '', type=str)
-    if sort_name:
-        pagination = Datacenters.query.order_by('name '+sort_name)
-    elif sort_servers:
-        pagination = Datacenters.query.order_by('(SELECT count(id) FROM servers WHERE datacenter_id=datacenters.id) ' + sort_servers)
+    sort = request.args.get('sort', '', type=str).replace('_', ' ')
+
+    if sort:
+        if 'server' in sort:
+            pagination = Datacenters.query.order_by(
+                '(SELECT count(id) FROM servers WHERE datacenter_id=datacenters.id) ' + sort.split(' ')[1])
+        else:
+            pagination = Datacenters.query.order_by(sort)
     else:
         pagination = Datacenters.query.order_by('id desc')
     pagination = pagination.paginate(page, per_page=10, error_out=False)

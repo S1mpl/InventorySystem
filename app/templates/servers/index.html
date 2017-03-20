@@ -24,22 +24,23 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Название{% if request.args.get('sort_name') == None %}
-                                        <a href="{{ url_for('servers.index', sort_name='asc', id_dc=id_dc) }}{% if request.args.get('search') %}&search={{ request.args.get('search') }}{% endif %}"><i class='glyphicon glyphicon-resize-full' style="float: right"></i></a>
+                        <th>Название
+                                    {% if request.args.get('sort') == None or (request.args.get('sort') != 'name_asc' and request.args.get('sort') != 'name_desc' and request.args.get('sort'))%}
+                                        <a href="{{ url_for('servers.index', sort='name_asc', id_dc=id_dc) }}{% if request.args.get('search') %}&search={{ request.args.get('search') }}{% endif %}"><i class='glyphicon glyphicon-resize-full' style="float: right"></i></a>
                                     {% endif %}
-                                    {% if request.args.get('sort_name') == 'asc' %}
-                                        <a href="{{ url_for('servers.index', sort_name='desc', id_dc=id_dc ) }}{% if request.args.get('search') %}&search={{ request.args.get('search') }}{% endif %}"><i class='glyphicon glyphicon-triangle-top' style="float: right"></i></a>
-                                    {% elif request.args.get('sort_name') == 'desc' %}
-                                        <a href="{{ url_for('servers.index', sort_name='asc', id_dc=id_dc) }}{% if request.args.get('search') %}&search={{ request.args.get('search') }}{% endif %}"><i class='glyphicon glyphicon-triangle-bottom' style="float: right"></i></a>
+                                    {% if request.args.get('sort') == 'name_asc' %}
+                                        <a href="{{ url_for('servers.index', sort='name_desc', id_dc=id_dc ) }}{% if request.args.get('search') %}&search={{ request.args.get('search') }}{% endif %}"><i class='glyphicon glyphicon-triangle-top' style="float: right"></i></a>
+                                    {% elif request.args.get('sort') == 'name_desc' %}
+                                        <a href="{{ url_for('servers.index', sort='name_asc', id_dc=id_dc) }}{% if request.args.get('search') %}&search={{ request.args.get('search') }}{% endif %}"><i class='glyphicon glyphicon-triangle-bottom' style="float: right"></i></a>
                                     {% endif %}</th>
                         <th>Производитель
-                                    {% if request.args.get('sort_manufacturer') == None %}
-                                        <a href="{{ url_for('servers.index', sort_manufacturer='asc', id_dc=id_dc) }}{% if request.args.get('search') %}&search={{ request.args.get('search') }}{% endif %}"><i class='glyphicon glyphicon-resize-full' style="float: right"></i></a>
+                                    {% if request.args.get('sort') == None or (request.args.get('sort') != 'manufacturer_asc' and request.args.get('sort') != 'manufacturer_desc' and  request.args.get('sort')) %}
+                                        <a href="{{ url_for('servers.index', sort='manufacturer_asc', id_dc=id_dc) }}{% if request.args.get('search') %}&search={{ request.args.get('search') }}{% endif %}"><i class='glyphicon glyphicon-resize-full' style="float: right"></i></a>
                                     {% endif %}
-                                    {% if request.args.get('sort_manufacturer') == 'asc' %}
-                                        <a href="{{ url_for('servers.index', sort_manufacturer='desc', id_dc=id_dc) }}{% if request.args.get('search') %}&search={{ request.args.get('search') }}{% endif %}"><i class='glyphicon glyphicon-triangle-top' style="float: right"></i></a>
-                                    {% elif request.args.get('sort_manufacturer') == 'desc' %}
-                                        <a href="{{ url_for('servers.index', sort_manufacturer='asc', id_dc=id_dc) }}{% if request.args.get('search') %}&search={{ request.args.get('search') }}{% endif %}"><i class='glyphicon glyphicon-triangle-bottom' style="float: right"></i></a>
+                                    {% if request.args.get('sort') == 'manufacturer_asc' %}
+                                        <a href="{{ url_for('servers.index', sort='manufacturer_desc', id_dc=id_dc) }}{% if request.args.get('search') %}&search={{ request.args.get('search') }}{% endif %}"><i class='glyphicon glyphicon-triangle-top' style="float: right"></i></a>
+                                    {% elif request.args.get('sort') == 'manufacturer_desc' %}
+                                        <a href="{{ url_for('servers.index', sort='manufacturer_asc', id_dc=id_dc) }}{% if request.args.get('search') %}&search={{ request.args.get('search') }}{% endif %}"><i class='glyphicon glyphicon-triangle-bottom' style="float: right"></i></a>
                                     {% endif %}
                         </th>
                         <th>Модель</th>

@@ -9,13 +9,11 @@ from flask_login import login_required
 @login_required
 def index(id_dc):
     page = request.args.get('page', 1, type=int)
-    sort_name = request.args.get('sort_name', '', type=str)
-    sort_manufacturer = request.args.get('sort_manufacturer', '', type=str)
     search = request.args.get('search', '', type=str)
-    if sort_manufacturer:
-        pagination = Servers.query.filter_by(datacenter_id=id_dc).order_by('manufacturer '+sort_manufacturer)
-    elif sort_name:
-        pagination = Servers.query.filter_by(datacenter_id=id_dc).order_by('name '+sort_name)
+    sort = request.args.get('sort', '', type=str).replace('_', ' ')
+
+    if sort:
+        pagination = Servers.query.filter_by(datacenter_id=id_dc).order_by(sort)
     else:
         pagination = Servers.query.filter_by(datacenter_id=id_dc).order_by('id desc')
     if search:

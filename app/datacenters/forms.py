@@ -1,8 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField
-from wtforms.validators import DataRequired, Length, Regexp, EqualTo
-from wtforms import ValidationError
-from ..models import Users
+from wtforms import StringField, SubmitField, SelectField, IntegerField
+from wtforms.validators import DataRequired
 
 class CreateDatacenterForm(FlaskForm):
     name = StringField('Название датацентра', validators=[DataRequired()])

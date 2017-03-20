@@ -12,24 +12,25 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Название {% if request.args.get('sort_name') == None %}
-                                        <a href="{{ url_for('datacenters.index', sort_name='asc') }}"><i class='glyphicon glyphicon-resize-full' style="float: right"></i></a>
+                        <th>Название {% if request.args.get('sort') == None or (request.args.get('sort') != 'name_asc' and request.args.get('sort') != 'name_desc' and request.args.get('sort')) %}
+                                        <a href="{{ url_for('datacenters.index', sort='name_asc') }}"><i class='glyphicon glyphicon-resize-full' style="float: right"></i></a>
                                     {% endif %}
-                                    {% if request.args.get('sort_name') == 'asc' %}
-                                        <a href="{{ url_for('datacenters.index', sort_name='desc' ) }}"><i class='glyphicon glyphicon-triangle-top' style="float: right"></i></a>
-                                    {% elif request.args.get('sort_name') == 'desc' %}
-                                        <a href="{{ url_for('datacenters.index', sort_name='asc') }}"><i class='glyphicon glyphicon-triangle-bottom' style="float: right"></i></a>
+                                    {% if request.args.get('sort') == 'name_asc' %}
+                                        <a href="{{ url_for('datacenters.index', sort='name_desc' ) }}"><i class='glyphicon glyphicon-triangle-top' style="float: right"></i></a>
+                                    {% elif request.args.get('sort') == 'name_desc' %}
+                                        <a href="{{ url_for('datacenters.index', sort='name_asc') }}"><i class='glyphicon glyphicon-triangle-bottom' style="float: right"></i></a>
                                     {% endif %}</th>
                         <th>Расположение</th>
                         <th>Вместимость</th>
                         <th>Tier</th>
-                        <th>Кол-во серверов {% if request.args.get('sort_servers') == None %}
-                                        <a href="{{ url_for('datacenters.index', sort_servers='asc') }}"><i class='glyphicon glyphicon-resize-full' style="float: right"></i></a>
+                        <th>Кол-во серверов
+                                    {% if request.args.get('sort') == None or (request.args.get('sort') != 'server_asc' and request.args.get('sort') != 'server_desc' and request.args.get('sort'))%}
+                                        <a href="{{ url_for('datacenters.index', sort='server_asc') }}"><i class='glyphicon glyphicon-resize-full' style="float: right"></i></a>
                                     {% endif %}
-                                    {% if request.args.get('sort_servers') == 'asc' %}
-                                        <a href="{{ url_for('datacenters.index', sort_servers='desc' ) }}"><i class='glyphicon glyphicon-triangle-top' style="float: right"></i></a>
-                                    {% elif request.args.get('sort_servers') == 'desc' %}
-                                        <a href="{{ url_for('datacenters.index', sort_servers='asc') }}"><i class='glyphicon glyphicon-triangle-bottom' style="float: right"></i></a>
+                                    {% if request.args.get('sort') == 'server_asc' %}
+                                        <a href="{{ url_for('datacenters.index', sort='server_desc' ) }}"><i class='glyphicon glyphicon-triangle-top' style="float: right"></i></a>
+                                    {% elif request.args.get('sort') == 'server_desc' %}
+                                        <a href="{{ url_for('datacenters.index', sort='server_asc') }}"><i class='glyphicon glyphicon-triangle-bottom' style="float: right"></i></a>
                                     {% endif %}</th>
                         <th>Действия</th>
                     <tr>

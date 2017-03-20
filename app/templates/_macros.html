@@ -2,10 +2,8 @@
     <ul class="pagination">
         <li {% if not pagination.has_prev %} class="disabled" {% endif %}>
             <a href="{% if pagination.has_prev %}
-                        {% if request.args.get('sort_name') %}
-                            {{ url_for(endpoint, page=pagination.page - 1, sort_name=request.args.get('sort_name'), **kwargs) }}
-                        {% elif request.args.get('sort_servers') %}
-                            {{ url_for(endpoint, page=pagination.page - 1, sort_servers=request.args.get('sort_servers'), **kwargs) }}
+                        {% if request.args.get('sort') %}
+                            {{ url_for(endpoint, page=pagination.page - 1, sort=request.args.get('sort'), **kwargs) }}
                         {% else %}
                             {{ url_for(endpoint, page=pagination.page - 1, **kwargs) }}
                         {% endif %}
@@ -21,10 +19,8 @@
                     <li>
                 {% endif %}
                         <a href="
-                            {% if request.args.get('sort_name') %}
-                                {{ url_for(endpoint, page=p, sort_name=request.args.get('sort_name'), **kwargs) }}
-                            {% elif request.args.get('sort_servers') %}
-                                {{ url_for(endpoint, page=p, sort_servers=request.args.get('sort_servers'), **kwargs) }}
+                            {% if request.args.get('sort') %}
+                                {{ url_for(endpoint, page=p, sort=request.args.get('sort'), **kwargs) }}
                             {% else %}
                                 {{ url_for(endpoint, page=p, **kwargs) }}
                             {% endif %}">{{ p }}</a>
@@ -35,10 +31,8 @@
         {% endfor %}
         <li {% if not pagination.has_next %}class="disabled"{% endif %}>
             <a href="{% if pagination.has_next %}
-                        {% if request.args.get('sort_name') %}
-                            {{ url_for(endpoint,  page=pagination.page + 1, sort_name=request.args.get('sort_name'),**kwargs) }}
-                        {% elif request.args.get('sort_servers') %}
-                            {{ url_for(endpoint, page=pagination.page + 1, sort_servers=request.args.get('sort_servers'), **kwargs) }}
+                        {% if request.args.get('sor') %}
+                            {{ url_for(endpoint,  page=pagination.page + 1, sort=request.args.get('sort'),**kwargs) }}
                         {% else %}
                             {{ url_for(endpoint, page=pagination.page + 1, **kwargs) }}
                         {% endif %}
@@ -49,21 +43,15 @@
     </ul>
 {% endmacro %}
 
-{% macro pagination_widget_server(pagination, endpoint, id_dc, search) %}
+{% macro pagination_widget_server(pagination, endpoint, id_dc, search=None) %}
     <ul class="pagination">
         <li {% if not pagination.has_prev %} class="disabled" {% endif %}>
             <a href="{% if pagination.has_prev %}
-                        {% if  request.args.get('sort_manufacturer')  %}
+                        {% if  request.args.get('sort')  %}
                             {% if request.args.get('search') %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page - 1, sort_manufacturer=request.args.get('sort_manufacturer'), search=request.args.get('search'), **kwargs) }}
+                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page - 1, sort=request.args.get('sort'), search=request.args.get('search'), **kwargs) }}
                             {% else %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page - 1, sort_manufacturer=request.args.get('sort_manufacturer'), **kwargs) }}
-                            {% endif %}
-                        {% elif  request.args.get('sort_name') %}
-                            {% if request.args.get('search') %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page - 1, sort_name=request.args.get('sort_name'), search=request.args.get('search'),**kwargs) }}
-                            {% else %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page - 1, sort_name=request.args.get('sort_name'),**kwargs) }}
+                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page - 1, sort=request.args.get('sort'), **kwargs) }}
                             {% endif %}
                         {% else %}
                             {% if request.args.get('search') %}
@@ -83,17 +71,11 @@
                 {% else %}
                     <li>
                 {% endif %}
-                        <a href="{% if request.args.get('sort_manufacturer')  %}
+                        <a href="{% if request.args.get('sort')  %}
                             {% if request.args.get('search') %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=p, sort_manufacturer=request.args.get('sort_manufacturer'), search=request.args.get('search'), **kwargs) }}
+                                {{ url_for(endpoint, id_dc=id_dc, page=p, sort=request.args.get('sort'), search=request.args.get('search'), **kwargs) }}
                             {% else %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=p, sort_manufacturer=request.args.get('sort_manufacturer'), **kwargs) }}
-                            {% endif %}
-                        {% elif  request.args.get('sort_name') %}
-                            {% if request.args.get('search') %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=p, sort_name=request.args.get('sort_name'), search=request.args.get('search'), **kwargs) }}
-                            {% else %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=p, sort_name=request.args.get('sort_name'), **kwargs) }}
+                                {{ url_for(endpoint, id_dc=id_dc, page=p, sort=request.args.get('sort'), **kwargs) }}
                             {% endif %}
                         {% else %}
                             {% if request.args.get('search') %}
@@ -108,17 +90,11 @@
             {% endif %}
         {% endfor %}
         <li {% if not pagination.has_next %}class="disabled"{% endif %}>
-            <a href="{% if pagination.has_next %}{% if  request.args.get('sort_manufacturer')  %}
+            <a href="{% if pagination.has_next %}{% if  request.args.get('sort')  %}
                             {% if request.args.get('search') %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page + 1, sort_manufacturer=request.args.get('sort_manufacturer'), search=request.args.get('search'), **kwargs) }}
+                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page + 1, sort=request.args.get('sort'), search=request.args.get('search'), **kwargs) }}
                             {% else %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page + 1, sort_manufacturer=request.args.get('sort_manufacturer'), **kwargs) }}
-                            {% endif %}
-                        {% elif  request.args.get('sort_name') %}
-                            {% if request.args.get('search') %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page + 1, sort_name=request.args.get('sort_name'), search=request.args.get('search'),**kwargs) }}
-                            {% else %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page + 1, sort_name=request.args.get('sort_name'),**kwargs) }}
+                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page + 1, sort=request.args.get('sort'), **kwargs) }}
                             {% endif %}
                         {% else %}
                             {% if request.args.get('search') %}
