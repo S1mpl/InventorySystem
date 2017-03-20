@@ -1,6 +1,8 @@
 # InventorySystem
 Инструкция по deploy
 
+Демо : <a href='http://86.110.118.96/'>http://86.110.118.96/</a>
+
 Для начала нужно установить все зависимости из репозиториев: python, pip, Nginx, postgresql, git
 
 ```
@@ -45,19 +47,20 @@ source env/bin/activate
 sudo git clone 
 https://github.com/S1mpl/InventorySystem.git
 cd InventorySystem
-sudo pip install uwsgi
+sudo pip install uwsgi gunicorn 
+cd InventorySystem
 sudo pip install -r requirements.txt
 ```
 В файле config.py настроить подключение к БД
 
 Миграция в БД
 ```
-sudo python3 migate.py db init
-sudo python3 migate.py db migrate
-sudo python3 migate.py db upgrade
+sudo python3 manage.py db init
+sudo python3 manage.py db migrate
+sudo python3 manage.py db upgrade
 ```
 
-Запуск тествого сервера
+Запуск тествого сервера(для проверки)
 ```
 sudo python manage.py runserver
 ```
@@ -79,12 +82,12 @@ sudo nano /etc/systemd/system/server.service
 Вставить в него
 ```
 [Unit]
-Description=uWSGI instance to serve myproject
+Description=uWSGI 
 After=network.target
 [Service]
-User=8host
+User=root
 Group=www-data
-WorkingDirectory=/var/www/inventory/InventorySyste/
+WorkingDirectory=/var/www/inventory/InventorySystem
 Environment="PATH=/var/www/inventory/env/bin"
 ExecStart=/var/www/inventory/env/bin/uwsgi --ini server.ini
 [Install]
@@ -108,4 +111,14 @@ server {
     uwsgi_pass unix:/var/www/inventory/InventorySystem/server.sock;
   }
 }
+```
+
+Далее
+```
+sudo ln -s /etc/nginx/sites-available/server /etc/nginx/sites-enabled
+```
+
+Перезапускаем Nginx
+```
+sudo systemctl restart nginx
 ```
