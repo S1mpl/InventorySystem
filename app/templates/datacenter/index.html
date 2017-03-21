@@ -8,6 +8,7 @@
         <h1>Датацентры <a href="{{ url_for('datacenters.create') }}" class="btn btn-success">Добавить</a></h1>
     </div>
     <div class="container">
+        <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
@@ -45,12 +46,14 @@
                         <td>{{ dc.tier }}</td>
                         <td>{{ dc.servers.count() }}</td>
                         <td>
-                            <div class="dropdown"> <a href="#" class="dropdown-toggle" id="drop4" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Дейсвия <span class="caret"></span> </a> <ul class="dropdown-menu" id="menu1" aria-labelledby="drop4"> <li><a href="{{ url_for('datacenters.edit', id_dc=dc.id) }}">Редактировать</a></li> <li><a href="{{ url_for('datacenters.delete', id_dc=dc.id) }}">Удалить</a></li></ul></div>
+                           <a href="{{ url_for('datacenters.edit', id_dc=dc.id) }}">Редактировать</a><br>
+                            <a href="{{ url_for('datacenters.delete', id_dc=dc.id) }}">Удалить</a>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
     </div>
     <div class="pagination">
         {{ macros.pagination_widget(pagination, '.index') }}

@@ -57,7 +57,7 @@ def edit(id_dc):
     form.location.data = datacenter.location
     form.capacity.data = datacenter.capacity
     form.tier.data = datacenter.tier
-    return render_template('datacenter/create.html', form=form)
+    return render_template('datacenter/edit.html', form=form)
 
 @datacenters.route('/delete/<int:id_dc>', methods=['GET', 'POST'])
 @login_required

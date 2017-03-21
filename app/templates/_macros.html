@@ -1,111 +1,115 @@
 {% macro pagination_widget(pagination, endpoint) %}
-    <ul class="pagination">
-        <li {% if not pagination.has_prev %} class="disabled" {% endif %}>
-            <a href="{% if pagination.has_prev %}
-                        {% if request.args.get('sort') %}
-                            {{ url_for(endpoint, page=pagination.page - 1, sort=request.args.get('sort'), **kwargs) }}
-                        {% else %}
-                            {{ url_for(endpoint, page=pagination.page - 1, **kwargs) }}
-                        {% endif %}
-                     {% else %}#{% endif %}">
-                &laquo;
-            </a>
-        </li>
-        {% for p in pagination.iter_pages() %}
-            {% if p %}
-                {% if p == pagination.page %}
-                    <li class="active">
-                {% else %}
-                    <li>
-                {% endif %}
-                        <a href="
+    {% if pagination.pages > 1 %}
+        <ul class="pagination">
+            <li {% if not pagination.has_prev %} class="disabled" {% endif %}>
+                <a href="{% if pagination.has_prev %}
                             {% if request.args.get('sort') %}
-                                {{ url_for(endpoint, page=p, sort=request.args.get('sort'), **kwargs) }}
+                                {{ url_for(endpoint, page=pagination.page - 1, sort=request.args.get('sort'), **kwargs) }}
                             {% else %}
-                                {{ url_for(endpoint, page=p, **kwargs) }}
-                            {% endif %}">{{ p }}</a>
-                    </li>
-            {% else %}
-                <li class="disabled"><a href="#">&hellip;</a></li>
-            {% endif %}
-        {% endfor %}
-        <li {% if not pagination.has_next %}class="disabled"{% endif %}>
-            <a href="{% if pagination.has_next %}
-                        {% if request.args.get('sor') %}
-                            {{ url_for(endpoint,  page=pagination.page + 1, sort=request.args.get('sort'),**kwargs) }}
-                        {% else %}
-                            {{ url_for(endpoint, page=pagination.page + 1, **kwargs) }}
-                        {% endif %}
-                    {% else %}#{% endif %}">
-                &raquo;
-            </a>
-        </li>
-    </ul>
+                                {{ url_for(endpoint, page=pagination.page - 1, **kwargs) }}
+                            {% endif %}
+                         {% else %}#{% endif %}">
+                    &laquo;
+                </a>
+            </li>
+            {% for p in pagination.iter_pages() %}
+                {% if p %}
+                    {% if p == pagination.page %}
+                        <li class="active">
+                    {% else %}
+                        <li>
+                    {% endif %}
+                            <a href="
+                                {% if request.args.get('sort') %}
+                                    {{ url_for(endpoint, page=p, sort=request.args.get('sort'), **kwargs) }}
+                                {% else %}
+                                    {{ url_for(endpoint, page=p, **kwargs) }}
+                                {% endif %}">{{ p }}</a>
+                        </li>
+                {% else %}
+                    <li class="disabled"><a href="#">&hellip;</a></li>
+                {% endif %}
+            {% endfor %}
+            <li {% if not pagination.has_next %}class="disabled"{% endif %}>
+                <a href="{% if pagination.has_next %}
+                            {% if request.args.get('sor') %}
+                                {{ url_for(endpoint,  page=pagination.page + 1, sort=request.args.get('sort'),**kwargs) }}
+                            {% else %}
+                                {{ url_for(endpoint, page=pagination.page + 1, **kwargs) }}
+                            {% endif %}
+                        {% else %}#{% endif %}">
+                    &raquo;
+                </a>
+            </li>
+        </ul>
+    {% endif %}
 {% endmacro %}
 
 {% macro pagination_widget_server(pagination, endpoint, id_dc, search=None) %}
-    <ul class="pagination">
-        <li {% if not pagination.has_prev %} class="disabled" {% endif %}>
-            <a href="{% if pagination.has_prev %}
-                        {% if  request.args.get('sort')  %}
-                            {% if request.args.get('search') %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page - 1, sort=request.args.get('sort'), search=request.args.get('search'), **kwargs) }}
+    {% if pagination.pages > 1 %}
+        <ul class="pagination">
+            <li {% if not pagination.has_prev %} class="disabled" {% endif %}>
+                <a href="{% if pagination.has_prev %}
+                            {% if  request.args.get('sort')  %}
+                                {% if request.args.get('search') %}
+                                    {{ url_for(endpoint, id_dc=id_dc, page=pagination.page - 1, sort=request.args.get('sort'), search=request.args.get('search'), **kwargs) }}
+                                {% else %}
+                                    {{ url_for(endpoint, id_dc=id_dc, page=pagination.page - 1, sort=request.args.get('sort'), **kwargs) }}
+                                {% endif %}
                             {% else %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page - 1, sort=request.args.get('sort'), **kwargs) }}
+                                {% if request.args.get('search') %}
+                                    {{ url_for(endpoint, id_dc=id_dc, page=pagination.page - 1, search=request.args.get('search'),  **kwargs) }}
+                                {% else %}
+                                    {{ url_for(endpoint, id_dc=id_dc, page=pagination.page - 1, **kwargs) }}
+                                {% endif %}
                             {% endif %}
-                        {% else %}
-                            {% if request.args.get('search') %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page - 1, search=request.args.get('search'),  **kwargs) }}
+                         {% else %}#{% endif %}">
+                    &laquo;
+                </a>
+            </li>
+            {% for p in pagination.iter_pages() %}
+                {% if p %}
+                    {% if p == pagination.page %}
+                        <li class="active">
+                    {% else %}
+                        <li>
+                    {% endif %}
+                            <a href="{% if request.args.get('sort')  %}
+                                {% if request.args.get('search') %}
+                                    {{ url_for(endpoint, id_dc=id_dc, page=p, sort=request.args.get('sort'), search=request.args.get('search'), **kwargs) }}
+                                {% else %}
+                                    {{ url_for(endpoint, id_dc=id_dc, page=p, sort=request.args.get('sort'), **kwargs) }}
+                                {% endif %}
                             {% else %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page - 1, **kwargs) }}
-                            {% endif %}
-                        {% endif %}
-                     {% else %}#{% endif %}">
-                &laquo;
-            </a>
-        </li>
-        {% for p in pagination.iter_pages() %}
-            {% if p %}
-                {% if p == pagination.page %}
-                    <li class="active">
+                                {% if request.args.get('search') %}
+                                    {{ url_for(endpoint, id_dc=id_dc, page=p, search=request.args.get('search'), **kwargs) }}
+                                {% else %}
+                                    {{ url_for(endpoint, id_dc=id_dc, page=p, **kwargs) }}
+                                {% endif %}
+                            {% endif %}">{{ p }}</a>
+                        </li>
                 {% else %}
-                    <li>
+                    <li class="disabled"><a href="#">&hellip;</a></li>
                 {% endif %}
-                        <a href="{% if request.args.get('sort')  %}
-                            {% if request.args.get('search') %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=p, sort=request.args.get('sort'), search=request.args.get('search'), **kwargs) }}
+            {% endfor %}
+            <li {% if not pagination.has_next %}class="disabled"{% endif %}>
+                <a href="{% if pagination.has_next %}{% if  request.args.get('sort')  %}
+                                {% if request.args.get('search') %}
+                                    {{ url_for(endpoint, id_dc=id_dc, page=pagination.page + 1, sort=request.args.get('sort'), search=request.args.get('search'), **kwargs) }}
+                                {% else %}
+                                    {{ url_for(endpoint, id_dc=id_dc, page=pagination.page + 1, sort=request.args.get('sort'), **kwargs) }}
+                                {% endif %}
                             {% else %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=p, sort=request.args.get('sort'), **kwargs) }}
+                                {% if request.args.get('search') %}
+                                    {{ url_for(endpoint, id_dc=id_dc, page=pagination.page + 1, search=request.args.get('search'),  **kwargs) }}
+                                {% else %}
+                                    {{ url_for(endpoint, id_dc=id_dc, page=pagination.page + 1, **kwargs) }}
+                                {% endif %}
                             {% endif %}
-                        {% else %}
-                            {% if request.args.get('search') %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=p, search=request.args.get('search'), **kwargs) }}
-                            {% else %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=p, **kwargs) }}
-                            {% endif %}
-                        {% endif %}">{{ p }}</a>
-                    </li>
-            {% else %}
-                <li class="disabled"><a href="#">&hellip;</a></li>
-            {% endif %}
-        {% endfor %}
-        <li {% if not pagination.has_next %}class="disabled"{% endif %}>
-            <a href="{% if pagination.has_next %}{% if  request.args.get('sort')  %}
-                            {% if request.args.get('search') %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page + 1, sort=request.args.get('sort'), search=request.args.get('search'), **kwargs) }}
-                            {% else %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page + 1, sort=request.args.get('sort'), **kwargs) }}
-                            {% endif %}
-                        {% else %}
-                            {% if request.args.get('search') %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page + 1, search=request.args.get('search'),  **kwargs) }}
-                            {% else %}
-                                {{ url_for(endpoint, id_dc=id_dc, page=pagination.page + 1, **kwargs) }}
-                            {% endif %}
-                        {% endif %}
-                     {% else %}#{% endif %}">
-                &raquo;
-            </a>
-        </li>
-    </ul>
+                         {% else %}#{% endif %}">
+                    &raquo;
+                </a>
+            </li>
+        </ul>
+    {% endif %}
 {% endmacro %}

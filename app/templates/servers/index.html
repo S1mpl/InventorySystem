@@ -11,16 +11,15 @@
             </div>
             <div class="col-md-2"></div>
             <div class="col-md-4">
-                <form method="get" class="form-inline" style=" margin-top: 30px">
-                    <div class="form-group">
-                        <input type="search" name="search" placeholder="Поиск по имени" class="form-control" />
-                        <input type="submit" name="" value="Поиск" class="btn btn-primary " />
-                    </div>
+                <form method="get" class="form-search" style=" margin-top: 30px">
+                    <input type="search" name="search" placeholder="Поиск по имени" class=" search-query" />
+                    <input type="submit" name="" value="Поиск" class="btn btn-primary " />
                 </form>
             </div>
         </div>
     </div>
     <div class="container">
+        <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
@@ -28,6 +27,7 @@
                                     {% if request.args.get('sort') == None or (request.args.get('sort') != 'name_asc' and request.args.get('sort') != 'name_desc' and request.args.get('sort'))%}
                                         <a href="{{ url_for('servers.index', sort='name_asc', id_dc=id_dc) }}{% if request.args.get('search') %}&search={{ request.args.get('search') }}{% endif %}"><i class='glyphicon glyphicon-resize-full' style="float: right"></i></a>
                                     {% endif %}
+
                                     {% if request.args.get('sort') == 'name_asc' %}
                                         <a href="{{ url_for('servers.index', sort='name_desc', id_dc=id_dc ) }}{% if request.args.get('search') %}&search={{ request.args.get('search') }}{% endif %}"><i class='glyphicon glyphicon-triangle-top' style="float: right"></i></a>
                                     {% elif request.args.get('sort') == 'name_desc' %}
@@ -58,12 +58,14 @@
                         <td>{{ sv.serial_number }}</td>
                         <td>{{ sv.os }}</td>
                         <td>
-                            <div class="dropdown"> <a href="#" class="dropdown-toggle" id="drop4" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Дейсвия <span class="caret"></span> </a> <ul class="dropdown-menu" id="menu1" aria-labelledby="drop4"> <li><a href="{{ url_for('servers.edit', id_dc=id_dc, id_sv=sv.id) }}">Редактировать</a></li> <li><a href="{{ url_for('servers.delete', id_dc=id_dc, id_sv=sv.id) }}">Удалить</a></li></ul></div>
+                            <a href="{{ url_for('servers.edit', id_dc=id_dc, id_sv=sv.id) }}">Редактировать</a><br>
+                            <a href="{{ url_for('servers.delete', id_dc=id_dc, id_sv=sv.id) }}">Удалить</a>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
     </div>
     <div class="pagination">
         {{ macros.pagination_widget_server(pagination, '.index', id_dc, search) }}

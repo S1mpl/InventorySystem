@@ -59,7 +59,7 @@ def edit(id_dc, id_sv):
     form.model.data = server.model
     form.serial_number.data = server.serial_number
     form.os.data = server.os
-    return render_template('servers/create.html', form=form)
+    return render_template('servers/edit.html', form=form)
 
 @servers.route('/dc/<int:id_dc>/delete/<int:id_sv>', methods=['GET', 'POST'])
 @login_required
